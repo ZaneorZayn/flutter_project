@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _screens[_currentIndex], // Display the current screen
       bottomNavigationBar: Container(
-        height: 80, // Adjust the height of the BottomNavigationBar
+        height: 70, // Adjust the height of the BottomNavigationBar
         decoration: const BoxDecoration(
           color: Color(0xffF5F7F8),
           boxShadow: [
@@ -123,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
           unselectedItemColor: Colors.grey,
           backgroundColor: Colors.grey[100], 
           elevation: 2,
-          
+
           // Make the background transparent to show Container's color
         ),
       ),

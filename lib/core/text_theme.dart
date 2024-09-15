@@ -11,9 +11,9 @@ class ResponsiveTextTheme {
 
     // Define base text styles with Google Fonts
     double headline1Size = isTablet ? 32.0 : 24.0;
-    double headline2Size = isTablet ? 28.0 : 22.0;
-    double bodyText1Size = isTablet ? 20.0 : 14.0;
-    double bodyText2Size = isTablet ? 18.0 : 12.8;
+    double headline2Size = isTablet ? 28.0 : 20.0;
+    double bodyText1Size = isTablet ? 20.0 : 12.8;
+    double bodyText2Size = isTablet ? 18.0 : 10.28;
 
     return TextTheme(
       headlineLarge: GoogleFonts.nunito(

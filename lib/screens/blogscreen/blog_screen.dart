@@ -12,7 +12,7 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   final List<String> contentTypes = ["All", "Blog", "Q&A", "Video", "My Post"];
   final List<String> categories = [
-    "Sort",
+    "",
     "Sexual Health",
     "Menstrual Health",
     "Pregnancy",
@@ -36,30 +36,74 @@ class _BlogScreenState extends State<BlogScreen> {
     });
   }
 
-  // Mocked YouTube video data
+  // Mocked YouTube video data filtered by selected category
   List<Map<String, String>> getFilteredVideos() {
     return [
       {
         "title": "Pregnancy Tips for a Healthy Baby",
-        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Placeholder YouTube link
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         "category": "Pregnancy",
+      },
+      {
+        "title": "Understanding Contraception",
+        "videoUrl": "https://www.youtube.com/watch?v=wfD7ZQhwACU",
+        "category": "Contraception",
+      },
+      {
+        "title": "Sexual Health & Relationships",
+        "videoUrl": "https://www.youtube.com/watch?v=jtYk3gWRSw0&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=23",
+        "category": "Sexual Health",
+      },
+      {
+        "title": "How To Maintain Menstrual Health",
+        "videoUrl": "https://www.youtube.com/watch?v=JTk2Exr7FO4&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=2",
+        "category": "Menstrual Health",
       },
     ].where((video) => video['category'] == categories[selectedCategoryIndex]).toList();
   }
 
-  // Mocked blog data
+  // Mocked blog data filtered by selected category
   List<Map<String, String>> getFilteredBlogs() {
     return [
       {
         "title": "ONCE INSERTED, DOES THE IMPLANT MOVE AROUND MY BODY?",
         "poster": "VIYA",
         "date": "2 days ago",
-        "image": "https://via.placeholder.com/300", // Placeholder image
+        "category": "Contraception",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJA8LE-4lJ70o2TfGSZd5vbHeDC_-sn6KfGQ&s",
       },
-    ];
+      {
+        "title": "WHAT ARE THE SIDE EFFECTS OF CONTRACEPTION?",
+        "poster": "Dr. Sarah Lee",
+        "date": "3 days ago",
+        "category": "Contraception",
+        "image": "https://via.placeholder.com/300",
+      },
+      {
+        "title": "HOW TO MAINTAIN MENSTRUAL HEALTH DURING STRESS?",
+        "poster": "Health Insider",
+        "date": "1 week ago",
+        "category": "Menstrual Health",
+        "image": "https://via.placeholder.com/300",
+      },
+      {
+        "title": "PREGNANCY MYTHS DEBUNKED",
+        "poster": "Motherhood Guide",
+        "date": "5 days ago",
+        "category": "Pregnancy",
+        "image": "https://via.placeholder.com/300",
+      },
+      {
+        "title": "SEXUAL HEALTH: UNDERSTANDING INTIMACY",
+        "poster": "Love Wellness",
+        "date": "1 day ago",
+        "category": "Sexual Health",
+        "image": "https://via.placeholder.com/300",
+      },
+    ].where((blog) => blog['category'] == categories[selectedCategoryIndex]).toList();
   }
 
-  // Mocked Q&A data
+  // Mocked Q&A data filtered by selected category
   List<Map<String, String>> getFilteredQA() {
     return [
       {
@@ -68,103 +112,203 @@ class _BlogScreenState extends State<BlogScreen> {
         "date": "2 days ago",
         "answers": "0 doctor answered",
         "comments": "2",
-        "profileImage": "https://via.placeholder.com/50", // Placeholder profile image
+        "view": "150",
+        "category": "Sexual Health",
+        "profileImage": "https://via.placeholder.com/50",
       },
-    ];
+      {
+        "question": "Can Contraceptives Cause Weight Gain?",
+        "poster": "Rachel S",
+        "date": "5 days ago",
+        "answers": "1 doctor answered",
+        "comments": "3",
+        "view": "200",
+        "category": "Contraception",
+        "profileImage": "https://via.placeholder.com/50",
+      },
+      {
+        "question": "How Can I Track My Menstrual Cycle?",
+        "poster": "Grace O.",
+        "date": "3 days ago",
+        "answers": "2 doctor answered",
+        "comments": "5",
+        "view": "300",
+        "category": "Menstrual Health",
+        "profileImage": "https://via.placeholder.com/50",
+      },
+      {
+        "question": "What Are The Early Signs Of Pregnancy?",
+        "poster": "Annie M",
+        "date": "1 week ago",
+        "answers": "3 doctor answered",
+        "comments": "4",
+        "view": "500",
+        "category": "Pregnancy",
+        "profileImage": "https://via.placeholder.com/50",
+      },
+    ].where((qa) => qa['category'] == categories[selectedCategoryIndex]).toList();
   }
 
   // Widget to display YouTube videos
   Widget buildVideoWidget() {
-    List<Map<String, String>> videos = getFilteredVideos();
-    return ListView.builder(
-      itemCount: videos.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(), // Prevent scrolling inside ListView
-      itemBuilder: (context, index) {
-        String videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!)!;
-        YoutubePlayerController _controller = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: const YoutubePlayerFlags(
-            autoPlay: false,
-            mute: false,
+  List<Map<String, String>> videos = getFilteredVideos();
+  return ListView.builder(
+    itemCount: videos.length,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (context, index) {
+      String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
+
+      // Check if videoId is null and handle accordingly
+      if (videoId == null) {
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: const Text(
+            'Invalid video URL',
+            style: TextStyle(color: Colors.red, fontSize: 16),
           ),
         );
+      }
 
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
+      YoutubePlayerController _controller = YoutubePlayerController(
+        initialVideoId: videoId,
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
+
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: true,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                videos[index]['title']!,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  videos[index]['title']!,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+
+            // Row for comments, doctor answers, and views
+           
+
+            // Divider
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0),
+              child: Divider(thickness: 1, color: Colors.grey),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Center(
+                child: TextButton(
+                  onPressed: () {
+                    // Action for "See more" button
+                  },
+                  child: const Text('See more detail', textAlign: TextAlign.center),
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
-  // Sample widget for Blogs
+  // Widget for Blogs
   Widget buildBlogWidget() {
-    return ListView.builder(
-      itemCount: getFilteredBlogs().length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(), // Prevent scrolling inside ListView
-      itemBuilder: (context, index) {
-        final blog = getFilteredBlogs()[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(blog['image']!),
-                ),
-                title: Text(blog['poster']!),
-                subtitle: Text(blog['date']!),
+  return ListView.builder(
+    itemCount: getFilteredBlogs().length,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (context, index) {
+      final blog = getFilteredBlogs()[index];
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(blog['image']!),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  blog['title']!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+              title: Text(blog['poster']!),
+              subtitle: Text(blog['date']!),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                blog['title']!,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              const SizedBox(height: 8),
-              Image.network(blog['image']!),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            ),
+            const SizedBox(height: 8),
+
+            // Full-width Image
+            SizedBox(
+              width: MediaQuery.of(context).size.width, // Set width to full screen width
+              child: Image.network(
+                blog['image']!,
+                fit: BoxFit.cover, // Makes sure the image covers the width while maintaining aspect ratio
+              ),
+            ),
+
+            // Row for comments, doctor answers, and views
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Icon(Icons.comment, size: 16),
+                  const SizedBox(width: 4),
+                  Text('12'), // Sample comment count
+                  const SizedBox(width: 16),
+                  const Icon(Icons.person, size: 16),
+                  const SizedBox(width: 4),
+                  Text('2 doctor answered'), // Sample doctor answers count
+                  const SizedBox(width: 16),
+                  const Icon(Icons.remove_red_eye, size: 16),
+                  const SizedBox(width: 4),
+                  Text('234 views'), // Sample views count
+                ],
+              ),
+            ),
+
+            // Divider
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Divider(thickness: 1, color: Colors.grey),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Center(
                 child: TextButton(
                   onPressed: () {
                     // See more action
                   },
-                  child: const Text('See more detail'),
+                  child: const Text('See more detail', textAlign: TextAlign.center),
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
-  // Sample widget for Q&A
+  // Widget for Q&A
   Widget buildQandAWidget() {
     return ListView.builder(
       itemCount: getFilteredQA().length,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(), // Prevent scrolling inside ListView
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final qa = getFilteredQA()[index];
         return Card(
@@ -183,8 +327,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   qa['question']!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               const SizedBox(height: 8),
@@ -199,16 +342,25 @@ class _BlogScreenState extends State<BlogScreen> {
                     const Icon(Icons.person, size: 16),
                     const SizedBox(width: 4),
                     Text(qa['answers']!),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.elderly_rounded, size: 16),
+                    Text(qa['view']!),
                   ],
                 ),
               ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(thickness: 1, color: Colors.grey),
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: TextButton(
-                  onPressed: () {
-                    // See more action
-                  },
-                  child: const Text('See more detail'),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      // See more action
+                    },
+                    child: const Text('See more detail', textAlign: TextAlign.center),
+                  ),
                 ),
               ),
             ],
@@ -220,13 +372,10 @@ class _BlogScreenState extends State<BlogScreen> {
 
   // Widget to display both Blog, Q&A, and Video mixed (for All content)
   Widget buildAllContentWidget() {
-    return ListView(
+    return Column(
       children: [
-
         buildVideoWidget(),  // Shows YouTube videos
-
         buildBlogWidget(),  // Shows blogs
-
         buildQandAWidget(),  // Shows Q&A
       ],
     );
@@ -234,16 +383,16 @@ class _BlogScreenState extends State<BlogScreen> {
 
   // Widget to display content based on content type
   Widget getContentWidget() {
-    switch (selectedContentTypeIndex) {
-      case 1:
-        return buildBlogWidget();
-      case 2:
-        return buildQandAWidget();
-      case 3:
-        return buildVideoWidget();
-      default:
-        return buildAllContentWidget();
+    if (selectedContentTypeIndex == 0) {
+      return buildAllContentWidget();  // If "All" is selected
+    } else if (selectedContentTypeIndex == 1) {
+      return buildBlogWidget();        // If "Blog" is selected
+    } else if (selectedContentTypeIndex == 2) {
+      return buildQandAWidget();       // If "Q&A" is selected
+    } else if (selectedContentTypeIndex == 3) {
+      return buildVideoWidget();       // If "Video" is selected
     }
+    return buildAllContentWidget();
   }
 
   @override
@@ -251,15 +400,15 @@ class _BlogScreenState extends State<BlogScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF7F5FF),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80), // Adjusted height for AppBar
+        preferredSize: const Size.fromHeight(80),
         child: AppBar(
           automaticallyImplyLeading: false,
-          elevation: 0, // Remove the black shadow line (elevation)
+          elevation: 0,
           flexibleSpace: Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xffF49EC4), Color(0xffF9C0C7)], // Gradient colors
+                colors: [Color(0xffF49EC4), Color(0xffF9C0C7)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -335,126 +484,153 @@ class _BlogScreenState extends State<BlogScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          // Full-width content type buttons
-          Container(
-            height: 40,
-            decoration: const BoxDecoration(
-              color: Colors.white, // Set background color for the container
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(16), // Rounded bottom-left corner
-                bottomRight: Radius.circular(16), // Rounded bottom-right corner
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey, // Shadow color
-                  blurRadius: 6.0, // Blur radius for the shadow
-                  offset: Offset(0, 2), // Offset for the shadow
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Full-width content type buttons
+            Container(
+              height: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
-              ],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0), // Padding inside the container
-            child: Row(
-              children: contentTypes.map((contentType) {
-                int index = contentTypes.indexOf(contentType);
-                return Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onContentTypeSelected(index),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      decoration: BoxDecoration(
-                        color: selectedContentTypeIndex == index
-                            ? Colors.pinkAccent
-                            : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(16),
-                        border: selectedContentTypeIndex == index
-                            ? Border.all(color: Colors.pinkAccent, width: 1.5)
-                            : Border.all(color: Colors.transparent),
-                      ),
-                      child: Center(
-                        child: Text(
-                          contentType,
-                          style: TextStyle(
-                            color: selectedContentTypeIndex == index
-                                ? Colors.white
-                                : Colors.black,
-                            fontWeight: selectedContentTypeIndex == index
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 12, // Smaller font size
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 6.0,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              child: Row(
+                children: contentTypes.map((contentType) {
+                  int index = contentTypes.indexOf(contentType);
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () => _onContentTypeSelected(index),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        decoration: BoxDecoration(
+                          color: selectedContentTypeIndex == index
+                              ? const Color(0xffF49EC4)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: selectedContentTypeIndex == index
+                              ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
+                              : Border.all(color: Colors.transparent),
+                        ),
+                        child: Center(
+                          child: Text(
+                            contentType,
+                            style: TextStyle(
+                              color: selectedContentTypeIndex == index
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
 
-
-          // Full-width category buttons with icons
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 30, // Reduced height for the container
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, // Enable horizontal scrolling
-                child: Row(
-                  children: categories.map((category) {
-                    int index = categories.indexOf(category);
-                    return GestureDetector(
-                      onTap: () => _onCategorySelected(index),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 6),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 12), // Added horizontal padding
-                        decoration: BoxDecoration(
-                          color: selectedCategoryIndex == index
-                              ? Colors.pinkAccent
-                              : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(16),
-                          border: selectedCategoryIndex == index
-                              ? Border.all(color: Colors.pinkAccent, width: 1.5)
-                              : Border.all(color: Colors.transparent),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (index == 0) // Add an icon for "Sort" category
-                              const Icon(Icons.sort,
-                                  size: 16, color: Colors.black),
-                            const SizedBox(width: 4),
-                            Text(
-                              category,
-                              style: TextStyle(
-                                color: selectedCategoryIndex == index
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: selectedCategoryIndex == index
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                fontSize: 12, // Smaller font size
+            // Full-width category buttons with icons
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 30,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: categories.map((category) {
+                      int index = categories.indexOf(category);
+                      return GestureDetector(
+                        onTap: () => _onCategorySelected(index),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: selectedCategoryIndex == index
+                                ? const Color(0xffF49EC4)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: selectedCategoryIndex == index
+                                ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
+                                : Border.all(color: Colors.grey[300]!),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (index == 0)
+                                const Icon(Icons.sort,
+                                    size: 16, color: Colors.black),
+                              const SizedBox(width: 4),
+                              Text(
+                                category,
+                                style: TextStyle(
+                                  color: selectedCategoryIndex == index
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ),
-          ),
 
-          const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-          // Display different content based on selected content type
-          Expanded(child: getContentWidget()),
-        ],
+            // Display different content based on selected content type
+            getContentWidget(),
+          ],
+        ),
       ),
+       floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    // Define the action for the FAB
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Action'),
+          content: const Text('Floating Action Button Pressed!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  },
+  backgroundColor: const Color(0xffF49EC4), // Customize the color
+  child: SvgPicture.asset("assets/icon/ask.svg",width: 40,height: 40,), // Icon of the FAB
+
+  // Make the FAB rounded with a specific shape
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30.0), // Set the corner radius here
+  ),
+),
+
     );
   }
 }

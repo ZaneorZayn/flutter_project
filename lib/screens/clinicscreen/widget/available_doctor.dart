@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_project/models/doctor_model.dart';
 
 class DoctorCardAvailable extends StatelessWidget {
   final Doctor doctor;
 
-  const DoctorCardAvailable({Key? key, required this.doctor}) : super(key: key);
+  const DoctorCardAvailable({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       width: 195, // Set width for horizontal scrolling cards
       decoration: BoxDecoration(
         color: Colors.white,
@@ -28,7 +27,7 @@ class DoctorCardAvailable extends StatelessWidget {
         children: [
           // Doctor Image with Online label
           ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius:const  BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
@@ -46,12 +45,12 @@ class DoctorCardAvailable extends StatelessWidget {
                     top: 8,
                     left: 8,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding:const  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
+                      child: const Text(
                         'ONLINE',
                         style: TextStyle(
                           color: Colors.white,
@@ -79,7 +78,7 @@ class DoctorCardAvailable extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 // Doctor Specialization
                 Text(
                   doctor.specialization,
@@ -90,12 +89,12 @@ class DoctorCardAvailable extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 // Rating, Reviews, and Experience
                 Row(
                   children: [
                     Icon(Icons.star, color: Colors.yellow[700], size: 16),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 3),
                     Text(
                       "${doctor.rating} (${doctor.reviews})",
                       style: Theme.of(context)
@@ -103,9 +102,9 @@ class DoctorCardAvailable extends StatelessWidget {
                           .bodySmall
                           ?.copyWith(color: Colors.grey[600]),
                     ),
-                    SizedBox(width: 8),
-                    Icon(Icons.work, size: 16, color: Colors.blue),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 6),
+                    const Icon(Icons.work, size: 16, color: Colors.blue),
+                    const SizedBox(width: 4),
                     Text(
                       "${doctor.experienceYears}+ Years",
                       style: Theme.of(context)
@@ -115,7 +114,7 @@ class DoctorCardAvailable extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 // Consultation Fee
                 RichText(
                   text: TextSpan(
@@ -152,14 +151,14 @@ class DoctorCardAvailable extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
+                    shape:const  RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(12),
                         bottomRight: Radius.circular(12),
                       ),
                     ),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -169,7 +168,7 @@ class DoctorCardAvailable extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.video_call, color: Colors.white),
+                      //(Icons.video_call, color: Colors.white),
                     ],
                   ),
                 ),

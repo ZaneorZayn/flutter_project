@@ -10,7 +10,7 @@ class BlogScreen extends StatefulWidget {
 }
 
 class _BlogScreenState extends State<BlogScreen> {
-  final List<String> contentTypes = ["All", "Blog", "Q&A", "Video", "My Post"];
+  final List<String> contentTypes = ["All", "Q&A", "Blog", "Videos", "My Post"];
   final List<String> categories = [
     "",
     "Sexual Health",
@@ -151,157 +151,158 @@ class _BlogScreenState extends State<BlogScreen> {
 
   // Widget to display YouTube videos
   Widget buildVideoWidget() {
-  List<Map<String, String>> videos = getFilteredVideos();
-  return ListView.builder(
-    itemCount: videos.length,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemBuilder: (context, index) {
-      String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
+    List<Map<String, String>> videos = getFilteredVideos();
+    return ListView.builder(
+      itemCount: videos.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
 
-      // Check if videoId is null and handle accordingly
-      if (videoId == null) {
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: const Text(
-            'Invalid video URL',
-            style: TextStyle(color: Colors.red, fontSize: 16),
+        if (videoId == null) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: const Text(
+              'Invalid video URL',
+              style: TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          );
+        }
+
+        YoutubePlayerController _controller = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
           ),
         );
-      }
 
-      YoutubePlayerController _controller = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: const YoutubePlayerFlags(
-          autoPlay: false,
-          mute: false,
-        ),
-      );
-
-      return Card(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                videos[index]['title']!,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
               ),
-            ),
-
-            // Row for comments, doctor answers, and views
-           
-
-            // Divider
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0),
-              child: Divider(thickness: 1, color: Colors.grey),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(
-                child: TextButton(
-                  onPressed: () {
-                    // Action for "See more" button
-                  },
-                  child: const Text('See more detail', textAlign: TextAlign.center),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  videos[index]['title']!,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: Divider(thickness: 1, color: Colors.grey),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      // Action for "See more" button
+                    },
+                    child: const Text('See more detail', textAlign: TextAlign.center),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   // Widget for Blogs
   Widget buildBlogWidget() {
-  return ListView.builder(
-    itemCount: getFilteredBlogs().length,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemBuilder: (context, index) {
-      final blog = getFilteredBlogs()[index];
-      return Card(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(blog['image']!),
+    return ListView.builder(
+      itemCount: getFilteredBlogs().length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final blog = getFilteredBlogs()[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(blog['image']!),
+                ),
+                title: Text(blog['poster']!),
+                subtitle: Text(blog['date']!),
               ),
-              title: Text(blog['poster']!),
-              subtitle: Text(blog['date']!),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                blog['title']!,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Full-width Image
-            SizedBox(
-              width: MediaQuery.of(context).size.width, // Set width to full screen width
-              child: Image.network(
-                blog['image']!,
-                fit: BoxFit.cover, // Makes sure the image covers the width while maintaining aspect ratio
-              ),
-            ),
-
-            // Row for comments, doctor answers, and views
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  const Icon(Icons.comment, size: 16),
-                  const SizedBox(width: 4),
-                  Text('12'), // Sample comment count
-                  const SizedBox(width: 16),
-                  const Icon(Icons.person, size: 16),
-                  const SizedBox(width: 4),
-                  Text('2 doctor answered'), // Sample doctor answers count
-                  const SizedBox(width: 16),
-                  const Icon(Icons.remove_red_eye, size: 16),
-                  const SizedBox(width: 4),
-                  Text('234 views'), // Sample views count
-                ],
-              ),
-            ),
-
-            // Divider
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(thickness: 1, color: Colors.grey),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(
-                child: TextButton(
-                  onPressed: () {
-                    // See more action
-                  },
-                  child: const Text('See more detail', textAlign: TextAlign.center),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  blog['title']!,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+              const SizedBox(height: 8),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.network(
+                  blog['image']!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    const Icon(Icons.comment, size: 16),
+                    const SizedBox(width: 4),
+                    Text('12'),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.person, size: 16),
+                    const SizedBox(width: 4),
+                    Text('2 doctor answered'),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.remove_red_eye, size: 16),
+                    const SizedBox(width: 4),
+                    Text('234 views'),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(thickness: 1, color: Colors.grey),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        // See more action
+                      },
+                      child: const Text('See more detail', textAlign: TextAlign.center),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   // Widget for Q&A
   Widget buildQandAWidget() {
@@ -374,9 +375,9 @@ class _BlogScreenState extends State<BlogScreen> {
   Widget buildAllContentWidget() {
     return Column(
       children: [
-        buildVideoWidget(),  // Shows YouTube videos
-        buildBlogWidget(),  // Shows blogs
-        buildQandAWidget(),  // Shows Q&A
+        buildVideoWidget(), // Shows YouTube videos
+        buildBlogWidget(), // Shows blogs
+        buildQandAWidget(), // Shows Q&A
       ],
     );
   }
@@ -384,13 +385,13 @@ class _BlogScreenState extends State<BlogScreen> {
   // Widget to display content based on content type
   Widget getContentWidget() {
     if (selectedContentTypeIndex == 0) {
-      return buildAllContentWidget();  // If "All" is selected
+      return buildAllContentWidget(); // If "All" is selected
     } else if (selectedContentTypeIndex == 1) {
-      return buildBlogWidget();        // If "Blog" is selected
+      return buildBlogWidget(); // If "Blog" is selected
     } else if (selectedContentTypeIndex == 2) {
-      return buildQandAWidget();       // If "Q&A" is selected
+      return buildQandAWidget(); // If "Q&A" is selected
     } else if (selectedContentTypeIndex == 3) {
-      return buildVideoWidget();       // If "Video" is selected
+      return buildVideoWidget(); // If "Video" is selected
     }
     return buildAllContentWidget();
   }
@@ -398,7 +399,7 @@ class _BlogScreenState extends State<BlogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F5FF),
+      backgroundColor: const Color(0xffF7F5FF), // Set background color here
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
@@ -484,153 +485,151 @@ class _BlogScreenState extends State<BlogScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Full-width content type buttons
-            Container(
-              height: 40,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16),
+      body: Container(
+        color: const Color(0xffF7F5FF), // Set background color here
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Custom styled content type buttons
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30), // Rounded container
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 6.0,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-              child: Row(
-                children: contentTypes.map((contentType) {
-                  int index = contentTypes.indexOf(contentType);
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () => _onContentTypeSelected(index),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: contentTypes.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String tab = entry.value;
+                    bool isSelected = index == selectedContentTypeIndex;
+
+                    return GestureDetector(
+                      onTap: () {
+                        _onContentTypeSelected(index);
+                      },
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 6),
-                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                         decoration: BoxDecoration(
-                          color: selectedContentTypeIndex == index
-                              ? const Color(0xffF49EC4)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: selectedContentTypeIndex == index
-                              ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
-                              : Border.all(color: Colors.transparent),
+                          color: isSelected
+                              ? Colors.pinkAccent.shade100
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Center(
-                          child: Text(
-                            contentType,
-                            style: TextStyle(
-                              color: selectedContentTypeIndex == index
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
+                        child: Text(
+                          tab,
+                          style: TextStyle(
+                            color: isSelected ? Colors.black : Colors.grey,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
 
-            // Full-width category buttons with icons
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 30,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: categories.map((category) {
-                      int index = categories.indexOf(category);
-                      return GestureDetector(
-                        onTap: () => _onCategorySelected(index),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 6),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: selectedCategoryIndex == index
-                                ? const Color(0xffF49EC4)
-                                : Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: selectedCategoryIndex == index
-                                ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
-                                : Border.all(color: Colors.grey[300]!),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (index == 0)
-                                const Icon(Icons.sort,
-                                    size: 16, color: Colors.black),
-                              const SizedBox(width: 4),
-                              Text(
-                                category,
-                                style: TextStyle(
-                                  color: selectedCategoryIndex == index
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+              // Full-width category buttons with icons
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 30,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: categories.map((category) {
+                        int index = categories.indexOf(category);
+                        return GestureDetector(
+                          onTap: () => _onCategorySelected(index),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 12),
+                            decoration: BoxDecoration(
+                              color: selectedCategoryIndex == index
+                                  ? const Color(0xffF49EC4)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: selectedCategoryIndex == index
+                                  ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
+                                  : Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (index == 0)
+                                  const Icon(Icons.sort,
+                                      size: 16, color: Colors.black),
+                                const SizedBox(width: 4),
+                                Text(
+                                  category,
+                                  style: TextStyle(
+                                    color: selectedCategoryIndex == index
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Display different content based on selected content type
-            getContentWidget(),
-          ],
+              // Display different content based on selected content type
+              getContentWidget(),
+            ],
+          ),
         ),
       ),
-       floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    // Define the action for the FAB
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Action'),
-          content: const Text('Floating Action Button Pressed!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  },
-  backgroundColor: const Color(0xffF49EC4), // Customize the color
-  child: SvgPicture.asset("assets/icon/ask.svg",width: 40,height: 40,), // Icon of the FAB
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Define the action for the FAB
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Action'),
+                content: const Text('Floating Action Button Pressed!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        backgroundColor: const Color(0xffF49EC4), // Customize the color
+        child: SvgPicture.asset(
+          "assets/icon/ask.svg",
+          width: 40,
+          height: 40,
+        ), // Icon of the FAB
 
-  // Make the FAB rounded with a specific shape
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30.0), // Set the corner radius here
-  ),
-),
-
+        // Make the FAB rounded with a specific shape
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0), // Set the corner radius here
+        ),
+      ),
     );
   }
 }

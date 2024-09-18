@@ -9,32 +9,42 @@ class ImageSlider extends StatelessWidget {
   ];
 
   @override
+  @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 215, // Adjust the height as needed
-        autoPlay: true,
-        enlargeCenterPage: true,
-        autoPlayInterval: Duration(seconds: 7), // Slide interval
-        aspectRatio: 16 / 9,
-        viewportFraction: 1,
+    // Determine if the device is a tablet based on screen width
+    bool isTablet = MediaQuery.of(context).size.width > 600;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: isTablet ? 12.0 : 8.0, // More padding for tablets
+        vertical: 12.0,
       ),
-      items: imageList.map((imagePath) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
+      child: CarouselSlider(
+        options: CarouselOptions(
+          height: isTablet ? 400 : 200, // Larger height for tablets
+          autoPlay: true,
+          enlargeCenterPage: false,
+          autoPlayInterval: const Duration(seconds: 7), // Slide interval
+          aspectRatio: 16 / 9,
+          viewportFraction: 1,
+        ),
+        items: imageList.map((imagePath) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      }).toList(),
+              );
+            },
+          );
+        }).toList(),
+      ),
     );
   }
 }

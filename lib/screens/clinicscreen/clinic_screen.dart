@@ -11,6 +11,9 @@ class ClinicScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the screen is a tablet (based on width greater than 600px)
+    bool isTablet = MediaQuery.of(context).size.width > 600;
+
     return Scaffold(
       backgroundColor: const Color(0xffF7F5FF),
       appBar: CustomAppBar(),
@@ -18,7 +21,7 @@ class ClinicScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0),
               child: ImageSlider(),
             ),
             const Padding(
@@ -79,7 +82,7 @@ class ClinicScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: 250,
+                height: isTablet?310 : 245,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: doctors.length,
@@ -94,7 +97,7 @@ class ClinicScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Available Doctors Section (now displayed as a grid)
+            // Available Doctors Section
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -114,14 +117,14 @@ class ClinicScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Available Doctors GridView
+            // Available Doctors GridView with responsive columns for tablet and mobile
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
                 shrinkWrap: true, // Prevent infinite height issues in GridView
-                physics: NeverScrollableScrollPhysics(), // Disable grid scrolling inside SingleChildScrollView
+                physics: const NeverScrollableScrollPhysics(), // Disable grid scrolling inside SingleChildScrollView
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Number of columns in the grid
+                  crossAxisCount: isTablet ? 3 : 2, // Show 3 columns on tablet, 2 on mobile
                   crossAxisSpacing: 5, // Horizontal space between grid items
                   mainAxisSpacing: 5, // Vertical space between grid items
                   childAspectRatio: 0.75, // Adjust the aspect ratio of each grid item
@@ -143,14 +146,14 @@ class ClinicScreen extends StatelessWidget {
 }
 
 class SvgButton extends StatelessWidget {
-  final String svgPath; // Path to the SVG icon
-  final String label; // Button label text
-  final Color backgroundColor; // Button background color
-  final double width; // Button width
-  final double height; // Button height
-  final double iconSize; // Icon size
-  final double borderRadius; // Border radius
-  final TextStyle? textStyle; // Optional text style override
+  final String svgPath;
+  final String label;
+  final Color backgroundColor;
+  final double width;
+  final double height;
+  final double iconSize;
+  final double borderRadius;
+  final TextStyle? textStyle;
 
   const SvgButton({
     Key? key,
@@ -166,22 +169,27 @@ class SvgButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Access the current theme's text theme
-    TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.black);
+    // Determine if the screen is a tablet (width > 600px)
+    bool isTablet = MediaQuery.of(context).size.width > 600;
+
+    // Adjust sizes based on screen size
+    double adjustedWidth = isTablet ? 140 : width;
+    double adjustedHeight = isTablet ? 150 : height;
+    double adjustedIconSize = isTablet ? 60 : iconSize;
+    
 
     return Container(
-      width: width,
-      height: height,
+      width: adjustedWidth,
+      height: adjustedHeight,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Shadow color
+            color: Colors.black.withOpacity(0.1),
             spreadRadius: 0,
-            blurRadius: 8, // Blur effect
-            offset: Offset(0, 4), // Shadow position (4 px down)
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -192,18 +200,21 @@ class SvgButton extends StatelessWidget {
           children: [
             SvgPicture.asset(
               svgPath,
-              color: Color(0xff103757),
-              width: iconSize,
-              height: iconSize,
+              color: const Color(0xff103757),
+              width: adjustedIconSize,
+              height: adjustedIconSize,
             ),
             const SizedBox(
               height: 16,
             ),
             Text(
               label,
-              style: textStyle ?? defaultTextStyle,
+              
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Colors.black
+              ),
               maxLines: 2,
-              textAlign: TextAlign.center, // Align text center
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -211,3 +222,4 @@ class SvgButton extends StatelessWidget {
     );
   }
 }
+

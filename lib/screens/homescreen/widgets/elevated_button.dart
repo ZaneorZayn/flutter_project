@@ -19,7 +19,7 @@ class ResponsiveButton extends StatelessWidget {
 
     // Define padding, font size, and other properties based on the device type
     double paddingVertical = isTablet ? 18.0 : 12.0;
-    double paddingHorizontal =  isTablet ? 14 : 10;
+    double paddingHorizontal =  isTablet ? 14 : 4;
     double fontSize = isTablet ? 20.0 : 16.0;
     double borderRadius = isTablet ? 12.0 : 8.0;
 
@@ -44,7 +44,7 @@ class ResponsiveButton extends StatelessWidget {
             ),
           ),
           child: Text(text,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black),),
         ),

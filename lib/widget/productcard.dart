@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/product_model.dart';
+import 'package:flutter_svg/svg.dart';
+import '../models/product_model.dart';
 
 class Productcard extends StatelessWidget {
   final Product product;
@@ -43,48 +44,46 @@ class Productcard extends StatelessWidget {
                       // Product name
                       Text(
                         product.name,
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold
+                        )
                       ),
                       const SizedBox(height: 4),
 
-                      // If there's a discount, show price after discount and strike-through original price
+                      
+                      // If there's a discount, show price after discount and original price in a row
                       if (product.discountPercentage > 0)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
                             Text(
                               "\$${product.priceAfterDiscount.toStringAsFixed(2)}", // Price after discount
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            
+                          )
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(width: 8), // Spacing between prices
                             Text(
                               "\$${product.price.toStringAsFixed(2)}", // Original price
-                              style: const TextStyle(
-                                color: Colors.redAccent,
-                                decoration: TextDecoration.lineThrough, // Cross out the old price
-                                fontSize: 12,
-                              ),
+                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            color: Colors.red,
+                            decoration: TextDecoration.lineThrough
+                            
+                          )
                             ),
                           ],
                         )
                       else
-                      // No discount, show only the regular price
+                        // No discount, show only the regular price
                         Text(
                           "\$${product.price.toStringAsFixed(2)}",
-                          style: const TextStyle(
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                            fontWeight: FontWeight.bold
+                          )
                         ),
                     ],
                   ),
@@ -92,7 +91,7 @@ class Productcard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4,),
+          const SizedBox(height: 4),
 
           // Discount badge using Stack, shown only if there is a discount
           if (product.discountPercentage > 0)
@@ -115,7 +114,8 @@ class Productcard extends StatelessWidget {
                 ),
               ),
             ),
-       SizedBox(height: 4,),
+          const SizedBox(height: 4),
+
           // Add to Cart Button using Align
           Align(
             alignment: Alignment.bottomCenter,
@@ -126,7 +126,7 @@ class Productcard extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: Colors.blueAccent, // Background color for button
+                color: Color(0xff74D1F6), // Background color for button
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,17 +135,38 @@ class Productcard extends StatelessWidget {
                     onPressed: () {
                       // Handle Add to Cart action
                     },
-                    child: const Text(
+                    child:  Text(
                       'Add to Cart',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Colors.white
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: Icon(Icons.shopping_cart, color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Container(
+                      height: 40, // Smaller size for the icon background
+                      width: 40, // Make it circular
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white, // Border color
+                          width: 1.5, // Border width
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icon/Heart.svg',
+                          color: const Color(0xff64748B),
+                          width: 24, // Icon size
+                          height: 24, // Icon size
+                        ),
+                        onPressed: () {
+                          // Action for the heart button
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

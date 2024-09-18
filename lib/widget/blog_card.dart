@@ -47,9 +47,9 @@ class BlogCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               blog.title,
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontSize: isTablet ? 22 : 16,
-                    fontWeight: FontWeight.bold,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                   
+                    //fontWeight: FontWeight.bold,
                   ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

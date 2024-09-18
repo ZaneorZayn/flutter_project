@@ -26,7 +26,7 @@ class ResponsiveCarousel extends StatelessWidget {
       options: CarouselOptions(
         height: carouselHeight,
         aspectRatio: isTablet ? 4 / 3 : 16 / 9, // Adjust aspect ratio for tablets
-        viewportFraction: 01,
+        viewportFraction: 0.99,
         enlargeCenterPage: true,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 5),

@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: SvgPicture.asset(
                 "assets/icon/home.svg",
                 color: _currentIndex == 0 
-                    ? Theme.of(context).colorScheme.secondary
+                    ? Color(0xffC9379D)
                     : Colors.grey,
               ),
               label: 'Home',
@@ -95,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: SvgPicture.asset(
                 "assets/icon/blog.svg",
                 color: _currentIndex == 1 
-                    ? Theme.of(context).colorScheme.secondary
+                    ? Color(0xffC9379D)
                     : Colors.grey,
               ),
               label: 'Blog',
@@ -104,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: SvgPicture.asset(
                 "assets/icon/clinic.svg",
                 color: _currentIndex == 2 
-                    ? Theme.of(context).colorScheme.secondary
+                    ?Color(0xffC9379D)
                     : Colors.grey,
               ),
               label: 'Clinic',
@@ -113,13 +113,13 @@ class _MainScreenState extends State<MainScreen> {
               icon: SvgPicture.asset(
                 "assets/icon/product.svg",
                 color: _currentIndex == 3 
-                    ? Theme.of(context).colorScheme.secondary
+                    ? Color(0xffC9379D)
                     : Colors.grey,
               ),
               label: 'Product',
             ),
           ],
-          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          selectedItemColor: Color(0xffC9379D),
           unselectedItemColor: Colors.grey,
           backgroundColor: Colors.grey[100], 
           elevation: 2,

@@ -10,9 +10,8 @@ class BlogScreen extends StatefulWidget {
 }
 
 class _BlogScreenState extends State<BlogScreen> {
-  final List<String> contentTypes = ["All", "Q&A", "Blog", "Videos", "My Post"];
+  final List<String> contentTypes = ["All", "Blog", "Q&A", "Videos", "My Post"];
   final List<String> categories = [
-    "",
     "Sexual Health",
     "Menstrual Health",
     "Pregnancy",
@@ -21,6 +20,9 @@ class _BlogScreenState extends State<BlogScreen> {
 
   int selectedContentTypeIndex = 0;
   int selectedCategoryIndex = 0;
+
+  // Mocked "My Post" data (currently empty)
+  List<Map<String, String>> myPostData = [];
 
   // Function to update the selected content type index
   void _onContentTypeSelected(int index) {
@@ -36,147 +38,181 @@ class _BlogScreenState extends State<BlogScreen> {
     });
   }
 
-  // Mocked YouTube video data filtered by selected category
-  List<Map<String, String>> getFilteredVideos() {
-    return [
-      {
-        "title": "Pregnancy Tips for a Healthy Baby",
-        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        "category": "Pregnancy",
-      },
-      {
-        "title": "Understanding Contraception",
-        "videoUrl": "https://www.youtube.com/watch?v=wfD7ZQhwACU",
-        "category": "Contraception",
-      },
-      {
-        "title": "Sexual Health & Relationships",
-        "videoUrl": "https://www.youtube.com/watch?v=jtYk3gWRSw0&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=23",
-        "category": "Sexual Health",
-      },
-      {
-        "title": "How To Maintain Menstrual Health",
-        "videoUrl": "https://www.youtube.com/watch?v=JTk2Exr7FO4&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=2",
-        "category": "Menstrual Health",
-      },
-    ].where((video) => video['category'] == categories[selectedCategoryIndex]).toList();
+  // Function to show content for "My Post" page
+  Widget buildMyPostWidget() {
+    if (myPostData.isEmpty) {
+      // No data: show an SVG image
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/empty.png', // Add your SVG asset here
+              height: 200,
+              width: 200,
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      );
+    } else {
+      // Data exists: show the list of posts
+      return ListView.builder(
+        itemCount: myPostData.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          final post = myPostData[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(post['image']!),
+              ),
+              title: Text(post['title']!),
+              subtitle: Text(post['date']!),
+            ),
+          );
+        },
+      );
+    }
   }
 
-  // Mocked blog data filtered by selected category
-  List<Map<String, String>> getFilteredBlogs() {
-    return [
-      {
-        "title": "ONCE INSERTED, DOES THE IMPLANT MOVE AROUND MY BODY?",
-        "poster": "VIYA",
-        "date": "2 days ago",
-        "category": "Contraception",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJA8LE-4lJ70o2TfGSZd5vbHeDC_-sn6KfGQ&s",
-      },
-      {
-        "title": "WHAT ARE THE SIDE EFFECTS OF CONTRACEPTION?",
-        "poster": "Dr. Sarah Lee",
-        "date": "3 days ago",
-        "category": "Contraception",
-        "image": "https://via.placeholder.com/300",
-      },
-      {
-        "title": "HOW TO MAINTAIN MENSTRUAL HEALTH DURING STRESS?",
-        "poster": "Health Insider",
-        "date": "1 week ago",
-        "category": "Menstrual Health",
-        "image": "https://via.placeholder.com/300",
-      },
-      {
-        "title": "PREGNANCY MYTHS DEBUNKED",
-        "poster": "Motherhood Guide",
-        "date": "5 days ago",
-        "category": "Pregnancy",
-        "image": "https://via.placeholder.com/300",
-      },
-      {
-        "title": "SEXUAL HEALTH: UNDERSTANDING INTIMACY",
-        "poster": "Love Wellness",
-        "date": "1 day ago",
-        "category": "Sexual Health",
-        "image": "https://via.placeholder.com/300",
-      },
-    ].where((blog) => blog['category'] == categories[selectedCategoryIndex]).toList();
-  }
+  // Mocked YouTube video data
+  List<Map<String, String>> videoData = [
+    {
+      "title": "Pregnancy Tips for a Healthy Baby",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "category": "Pregnancy",
+    },
+    {
+      "title": "Understanding Contraception",
+      "videoUrl": "https://www.youtube.com/watch?v=wfD7ZQhwACU",
+      "category": "Contraception",
+    },
+    {
+      "title": "Sexual Health & Relationships",
+      "videoUrl": "https://www.youtube.com/watch?v=jtYk3gWRSw0&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=23",
+      "category": "Sexual Health",
+    },
+    {
+      "title": "How To Maintain Menstrual Health",
+      "videoUrl": "https://www.youtube.com/watch?v=JTk2Exr7FO4&list=PLjxrf2q8roU33POuWi4bK0zvDpAHK6759&index=2",
+      "category": "Menstrual Health",
+    },
+  ];
 
-  // Mocked Q&A data filtered by selected category
-  List<Map<String, String>> getFilteredQA() {
-    return [
-      {
-        "question": "What Is Sexual Health, And Why Is It Important?",
-        "poster": "Chanda Hit",
-        "date": "2 days ago",
-        "answers": "0 doctor answered",
-        "comments": "2",
-        "view": "150",
-        "category": "Sexual Health",
-        "profileImage": "https://via.placeholder.com/50",
-      },
-      {
-        "question": "Can Contraceptives Cause Weight Gain?",
-        "poster": "Rachel S",
-        "date": "5 days ago",
-        "answers": "1 doctor answered",
-        "comments": "3",
-        "view": "200",
-        "category": "Contraception",
-        "profileImage": "https://via.placeholder.com/50",
-      },
-      {
-        "question": "How Can I Track My Menstrual Cycle?",
-        "poster": "Grace O.",
-        "date": "3 days ago",
-        "answers": "2 doctor answered",
-        "comments": "5",
-        "view": "300",
-        "category": "Menstrual Health",
-        "profileImage": "https://via.placeholder.com/50",
-      },
-      {
-        "question": "What Are The Early Signs Of Pregnancy?",
-        "poster": "Annie M",
-        "date": "1 week ago",
-        "answers": "3 doctor answered",
-        "comments": "4",
-        "view": "500",
-        "category": "Pregnancy",
-        "profileImage": "https://via.placeholder.com/50",
-      },
-    ].where((qa) => qa['category'] == categories[selectedCategoryIndex]).toList();
+  // Mocked blog data
+  List<Map<String, String>> blogData = [
+    {
+      "title": "ONCE INSERTED, DOES THE IMPLANT MOVE AROUND MY BODY?",
+      "poster": "VIYA",
+      "date": "2 days ago",
+      "category": "Contraception",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJA8LE-4lJ70o2TfGSZd5vbHeDC_-sn6KfGQ&s",
+    },
+    {
+      "title": "WHAT ARE THE SIDE EFFECTS OF CONTRACEPTION?",
+      "poster": "Dr. Sarah Lee",
+      "date": "3 days ago",
+      "category": "Contraception",
+      "image": "https://via.placeholder.com/300",
+    },
+    {
+      "title": "HOW TO MAINTAIN MENSTRUAL HEALTH DURING STRESS?",
+      "poster": "Health Insider",
+      "date": "1 week ago",
+      "category": "Menstrual Health",
+      "image": "https://via.placeholder.com/300",
+    },
+    {
+      "title": "PREGNANCY MYTHS DEBUNKED",
+      "poster": "Motherhood Guide",
+      "date": "5 days ago",
+      "category": "Pregnancy",
+      "image": "https://via.placeholder.com/300",
+    },
+    {
+      "title": "SEXUAL HEALTH: UNDERSTANDING INTIMACY",
+      "poster": "Love Wellness",
+      "date": "1 day ago",
+      "category": "Sexual Health",
+      "image": "https://via.placeholder.com/300",
+    },
+  ];
+
+  // Mocked Q&A data
+  List<Map<String, String>> qaData = [
+    {
+      "question": "What Is Sexual Health, And Why Is It Important?",
+      "poster": "Chanda Hit",
+      "date": "2 days ago",
+      "answers": "0 doctor answered",
+      "comments": "2",
+      "view": "150",
+      "category": "Sexual Health",
+      "profileImage": "https://via.placeholder.com/50",
+    },
+    {
+      "question": "Can Contraceptives Cause Weight Gain?",
+      "poster": "Rachel S",
+      "date": "5 days ago",
+      "answers": "1 doctor answered",
+      "comments": "3",
+      "view": "200",
+      "category": "Contraception",
+      "profileImage": "https://via.placeholder.com/50",
+    },
+    {
+      "question": "How Can I Track My Menstrual Cycle?",
+      "poster": "Grace O.",
+      "date": "3 days ago",
+      "answers": "2 doctor answered",
+      "comments": "5",
+      "view": "300",
+      "category": "Menstrual Health",
+      "profileImage": "https://via.placeholder.com/50",
+    },
+    {
+      "question": "What Are The Early Signs Of Pregnancy?",
+      "poster": "Annie M",
+      "date": "1 week ago",
+      "answers": "3 doctor answered",
+      "comments": "4",
+      "view": "500",
+      "category": "Pregnancy",
+      "profileImage": "https://via.placeholder.com/50",
+    },
+  ];
+
+  // Function to filter content based on selected category
+  List<Map<String, String>> filterDataByCategory(List<Map<String, String>> data) {
+    if (selectedContentTypeIndex == 0) {
+      // If "All" content is selected, show all data
+      return data;
+    }
+    return data
+        .where((item) => item['category'] == categories[selectedCategoryIndex])
+        .toList();
   }
 
   // Widget to display YouTube videos
   Widget buildVideoWidget() {
-    List<Map<String, String>> videos = getFilteredVideos();
+    List<Map<String, String>> videos = filterDataByCategory(videoData);
     return ListView.builder(
       itemCount: videos.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
-
-        if (videoId == null) {
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            child: const Text(
-              'Invalid video URL',
-              style: TextStyle(color: Colors.red, fontSize: 16),
-            ),
-          );
-        }
-
         YoutubePlayerController _controller = YoutubePlayerController(
-          initialVideoId: videoId,
+          initialVideoId: videoId!,
           flags: const YoutubePlayerFlags(
             autoPlay: false,
             mute: false,
           ),
         );
-
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: Column(
@@ -190,21 +226,62 @@ class _BlogScreenState extends State<BlogScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   videos[index]['title']!,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0),
-                child: Divider(thickness: 1, color: Colors.grey),
-              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    SvgPicture.asset("assets/icon/comment.svg"),
+                    const SizedBox(width: 4),
+                    Text(
+                      "8 comments", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(width: 12),
+                    SvgPicture.asset("assets/icon/comment.svg"),
+                    const SizedBox(width: 4),
+                    Text(
+                      "1 doctor answer", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(width: 12),
+                    SvgPicture.asset("assets/icon/view.svg"),
+                    const SizedBox(width: 4),
+                    Text(
+                      "350 views", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(color: Color(0xff074B78), endIndent: 1.5),
+              TextButton(
+                onPressed: () {
+                  // Handle see more action
+                },
                 child: Center(
-                  child: TextButton(
-                    onPressed: () {
-                      // Action for "See more" button
-                    },
-                    child: const Text('See more detail', textAlign: TextAlign.center),
+                  child: Text(
+                    "See more detail",
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: const Color(0xff351238),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -215,14 +292,15 @@ class _BlogScreenState extends State<BlogScreen> {
     );
   }
 
-  // Widget for Blogs
+  // Widget to display blogs
   Widget buildBlogWidget() {
+    List<Map<String, String>> blogs = filterDataByCategory(blogData);
     return ListView.builder(
-      itemCount: getFilteredBlogs().length,
+      itemCount: blogs.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        final blog = getFilteredBlogs()[index];
+        final blog = blogs[index];
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: Column(
@@ -232,14 +310,21 @@ class _BlogScreenState extends State<BlogScreen> {
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(blog['image']!),
                 ),
-                title: Text(blog['poster']!),
-                subtitle: Text(blog['date']!),
+                title: Text(blog['poster']!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),),
+                subtitle: Text(blog['date']!, style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   blog['title']!,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -254,45 +339,49 @@ class _BlogScreenState extends State<BlogScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
-                    const Icon(Icons.comment, size: 16),
+                    SvgPicture.asset("assets/icon/comment.svg"),
                     const SizedBox(width: 4),
-                    Text('12'),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.person, size: 16),
+                    Text(
+                      "10 comments", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(width: 12),
+                    SvgPicture.asset("assets/icon/comment.svg"),
                     const SizedBox(width: 4),
-                    Text('2 doctor answered'),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.remove_red_eye, size: 16),
+                    Text(
+                      "2 doctor answers", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+                    const SizedBox(width: 12),
+                    SvgPicture.asset("assets/icon/view.svg"),
                     const SizedBox(width: 4),
-                    Text('234 views'),
+                    Text(
+                      "500 views", // Replace with dynamic data if available
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(thickness: 1, color: Colors.grey),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () {
-                        // See more action
-                      },
-                      child: const Text('See more detail', textAlign: TextAlign.center),
+              const Divider(color: Color(0xff074B78), endIndent: 1.5),
+              TextButton(
+                onPressed: () {
+                  // Handle see more action
+                },
+                child: Center(
+                  child: Text(
+                    "See more Detail",
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: const Color(0xff351238),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -304,74 +393,108 @@ class _BlogScreenState extends State<BlogScreen> {
     );
   }
 
-  // Widget for Q&A
-  Widget buildQandAWidget() {
-    return ListView.builder(
-      itemCount: getFilteredQA().length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        final qa = getFilteredQA()[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(qa['profileImage']!),
-                ),
-                title: Text(qa['poster']!),
-                subtitle: Text(qa['date']!),
+  // Widget to display Q&A
+  // Widget to display Q&A
+Widget buildQandAWidget() {
+  List<Map<String, String>> qas = filterDataByCategory(qaData);
+  return ListView.builder(
+    itemCount: qas.length,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (context, index) {
+      final qa = qas[index];
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(qa['profileImage']!),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  qa['question']!,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+              title: Text(
+                qa['poster']!,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.black,
+                    ),
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    const Icon(Icons.comment, size: 16),
-                    const SizedBox(width: 4),
-                    Text(qa['comments']!),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.person, size: 16),
-                    const SizedBox(width: 4),
-                    Text(qa['answers']!),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.elderly_rounded, size: 16),
-                    Text(qa['view']!),
-                  ],
-                ),
+              subtitle: Text(
+                qa['date']!,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: const Color(0xff61646B),
+                    ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(thickness: 1, color: Colors.grey),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                qa['question']!,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: const Color(0xff61646B),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Center(
-                  child: TextButton(
-                    onPressed: () {
-                      // See more action
-                    },
-                    child: const Text('See more detail', textAlign: TextAlign.center),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                 SvgPicture.asset("assets/icon/comment.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    "${qa['comments']} comments", // Display the number of comments
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
                   ),
+                  const SizedBox(width: 12),
+                 SvgPicture.asset("assets/icon/comment.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    qa['answers']!, // Display doctor comments
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
+                  ),
+                  const SizedBox(width: 12),
+                  SvgPicture.asset("assets/icon/view.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    "${qa['view']} views", // Display views
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xff074B78), endIndent: 1.5),
+            TextButton(
+              onPressed: () {
+                // Handle see more action
+              },
+              child: Center(
+                child: Text(
+                  "See more Detail",
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: const Color(0xff351238),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
-  // Widget to display both Blog, Q&A, and Video mixed (for All content)
+
+  // Widget to display both Blogs, Q&A, and Videos mixed (for "All" content)
   Widget buildAllContentWidget() {
     return Column(
       children: [
@@ -382,16 +505,18 @@ class _BlogScreenState extends State<BlogScreen> {
     );
   }
 
-  // Widget to display content based on content type
+  // Widget to display content based on selected content type
   Widget getContentWidget() {
     if (selectedContentTypeIndex == 0) {
-      return buildAllContentWidget(); // If "All" is selected
+      return buildAllContentWidget(); // If "All" is selected, show all
     } else if (selectedContentTypeIndex == 1) {
       return buildBlogWidget(); // If "Blog" is selected
     } else if (selectedContentTypeIndex == 2) {
       return buildQandAWidget(); // If "Q&A" is selected
     } else if (selectedContentTypeIndex == 3) {
-      return buildVideoWidget(); // If "Video" is selected
+      return buildVideoWidget(); // If "Videos" is selected
+    } else if (selectedContentTypeIndex == 4) {
+      return buildMyPostWidget(); // If "My Post" is selected
     }
     return buildAllContentWidget();
   }
@@ -449,7 +574,7 @@ class _BlogScreenState extends State<BlogScreen> {
                       child: IconButton(
                         icon: SvgPicture.asset(
                           "assets/icon/Search1.svg",
-                          color: Colors.grey,
+                          color: const Color(0xff64748B),
                           width: 24,
                           height: 24,
                         ),
@@ -469,7 +594,7 @@ class _BlogScreenState extends State<BlogScreen> {
                       child: IconButton(
                         icon: SvgPicture.asset(
                           "assets/icon/bookmark.svg",
-                          color: Colors.grey,
+                          color: const Color(0xff64748B),
                           height: 24,
                           width: 24,
                         ),
@@ -527,7 +652,7 @@ class _BlogScreenState extends State<BlogScreen> {
                         child: Text(
                           tab,
                           style: TextStyle(
-                            color: isSelected ? Colors.black : Colors.grey,
+                            color: isSelected ? Colors.white : Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -562,24 +687,15 @@ class _BlogScreenState extends State<BlogScreen> {
                                   ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
                                   : Border.all(color: Colors.grey[300]!),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (index == 0)
-                                  const Icon(Icons.sort,
-                                      size: 16, color: Colors.black),
-                                const SizedBox(width: 4),
-                                Text(
-                                  category,
-                                  style: TextStyle(
-                                    color: selectedCategoryIndex == index
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                            child: Text(
+                              category,
+                              style: TextStyle(
+                                color: selectedCategoryIndex == index
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         );

@@ -18,11 +18,11 @@ class PngTextContainer extends StatelessWidget {
     Key? key,
     required this.imagePath,
     required this.text,
-    this.containerWidth = 110,
-    this.containerHeight = 120,
+    this.containerWidth = 100,
+    this.containerHeight = 140,
     this.backgroundColor = const Color(0xFFFED3DD),
     this.textColor = Colors.black,
-    this.imageHeight = 50,
+    this.imageHeight = 70,
     this.imageWidth = 90,
     this.textBackgroundColor = const Color(0xFFFCF1FF),
     this.textFontSize = 10.24,
@@ -54,9 +54,9 @@ class PngTextContainer extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Color(0x16000000),
+            color: Colors.white,
             blurRadius: 4,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             spreadRadius: 0,
           ),
         ],
@@ -68,7 +68,7 @@ class PngTextContainer extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            height: responsiveContainerHeight - 45,
+            height: responsiveContainerHeight - 40, // Adjusting space for the text section
             padding: const EdgeInsets.all(8),
             decoration: ShapeDecoration(
               color: backgroundColor,
@@ -107,10 +107,9 @@ class PngTextContainer extends StatelessWidget {
                 child: Text(
                   text,
                   style: TextStyle(
-                    color: textColor,
                     fontSize: responsiveTextFontSize,
                     fontWeight: textFontWeight,
-                    height: 1.2,
+                    color: textColor,
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 2,

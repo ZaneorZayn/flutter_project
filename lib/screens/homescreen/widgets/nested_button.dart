@@ -17,7 +17,7 @@ class CustomButtonLayout extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 6.0),
         child: Column(
           children: [
             Row(
@@ -45,14 +45,14 @@ class CustomButtonLayout extends StatelessWidget {
                             children: [
                               Text(
                                 "Doctor",
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xff2DB1E5),
                                     ),
                               ),
                               Text(
                                 "Appointment",
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xff2DB1E5),
                                     ),
@@ -93,7 +93,7 @@ class CustomButtonLayout extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Check Up",
-                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xff59315E),
                                         ),
@@ -123,7 +123,7 @@ class CustomButtonLayout extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Clinic",
-                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xff002A4C),
                                         ),
@@ -147,7 +147,7 @@ class CustomButtonLayout extends StatelessWidget {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xff351238),
-                                padding: EdgeInsets.symmetric(vertical: isTablet ? 24.0 : 14.0), // Adjust padding for tablet
+                                padding: EdgeInsets.symmetric(vertical: isTablet ? 16.0 : 14.0,horizontal: isTablet? 20:14), // Adjust padding for tablet
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(isTablet ? 20.0 : 16.0), // Adjust border radius for tablet
                                 ),
@@ -160,14 +160,14 @@ class CustomButtonLayout extends StatelessWidget {
                                     children: [
                                       Text(
                                         "Join The",
-                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                               color: Color(0xffF49EC4),
                                               fontWeight: FontWeight.bold,
                                             ),
                                       ),
                                       Text(
                                         "Movement",
-                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                               color: Color(0xffF49EC4),
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -194,7 +194,7 @@ class CustomButtonLayout extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Hotline",
-                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xffF8BAC6),
                                         ),

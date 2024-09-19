@@ -31,8 +31,8 @@ class CustomAppBarProduct extends StatelessWidget implements PreferredSizeWidget
             icon: SvgPicture.asset(
               'assets/icon/Heart.svg',
               color: const Color(0xff64748B),
-              width: 24, // Icon size
-              height: 24, // Icon size
+              width: 30, // Icon size
+              height: 30, // Icon size
             ),
             onPressed: () {
               // Action for the bell button
@@ -58,8 +58,8 @@ class CustomAppBarProduct extends StatelessWidget implements PreferredSizeWidget
               icon: SvgPicture.asset(
                 'assets/icon/cart.svg',
                 color: const Color(0xff64748B),
-                width: 24, // Icon size
-                height: 24, // Icon size
+                width: 26, // Icon size
+                height: 26, // Icon size
               ),
               onPressed: () {
                 // Action for the chat button

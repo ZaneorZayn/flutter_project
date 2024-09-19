@@ -10,8 +10,8 @@ class DoctorCardAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get screen width and height using MediaQuery
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isTablet = screenWidth > 600; // Tablet detection based on screen width
+    //double screenWidth = MediaQuery.of(context).size.width;
+    //bool isTablet = screenWidth > 600; // Tablet detection based on screen width
 
     return  Card(
       elevation: 2,
@@ -92,13 +92,21 @@ class DoctorCardAvailable extends StatelessWidget {
                           ],
                         ),
 
-                        Text(
-                            "\$${doctor.consultationFee.toStringAsFixed(2)}",
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                                "\$${doctor.consultationFee.toStringAsFixed(2)} ",
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            SizedBox(width: 10,),
+                              Text('Inc.VAT',style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.grey
+                              )),
+                          ],
+                        ),
 
                       
                       // If there's a discount, show price after discount and original price in a row
@@ -135,7 +143,7 @@ class DoctorCardAvailable extends StatelessWidget {
                       // Handle Add to Cart action
                     },
                     child:  Text(
-                      'Add to Cart',
+                      'See Doctor',
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Colors.white
                       ),
@@ -143,28 +151,16 @@ class DoctorCardAvailable extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                      height: 40, // Smaller size for the icon background
-                      width: 40, // Make it circular
-                      decoration: BoxDecoration(
+                    child: IconButton(
+                      icon: SvgPicture.asset(
+                        'assets/icon/videocall.svg',
                         color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white, // Border color
-                          width: 1.5, // Border width
-                        ),
+                        width: 16, // Icon size
+                        height: 16, // Icon size
                       ),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/icon/Heart.svg',
-                          color: const Color(0xff64748B),
-                          width: 24, // Icon size
-                          height: 24, // Icon size
-                        ),
-                        onPressed: () {
-                          // Action for the heart button
-                        },
-                      ),
+                      onPressed: () {
+                        // Action for the heart button
+                      },
                     ),
                   ),
                 ],

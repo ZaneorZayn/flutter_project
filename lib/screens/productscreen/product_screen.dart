@@ -84,7 +84,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       _onCategorySelected(index);
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: horizontalMargin / 2,vertical:isTablet ? 1 : 2),
+                      margin: EdgeInsets.symmetric(horizontal: horizontalMargin / 2,vertical:isTablet ? 1 : 2.5),
                       padding: EdgeInsets.symmetric(
                           horizontal: horizontalPadding,
                           vertical: verticalPadding / 2),

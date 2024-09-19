@@ -539,73 +539,76 @@ Widget buildQandAWidget() {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'All Content',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: Colors.black),
-                    ),
-                    Text(
-                      'Explore good blog and Q&A',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'All Content',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(color: Colors.black),
                       ),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          "assets/icon/Search1.svg",
-                          color: const Color(0xff64748B),
-                          width: 24,
-                          height: 24,
+                      Text(
+                        'Explore good blog and Q&A',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        onPressed: () {
-                          // Search action
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          "assets/icon/bookmark.svg",
-                          color: const Color(0xff64748B),
-                          height: 24,
-                          width: 24,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            "assets/icon/Search1.svg",
+                            color: const Color(0xff64748B),
+                            width: 24,
+                            height: 24,
+                          ),
+                          onPressed: () {
+                            // Search action
+                          },
                         ),
-                        onPressed: () {
-                          // Bookmark action
-                        },
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 8),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            "assets/icon/bookmark.svg",
+                            color: const Color(0xff64748B),
+                            height: 24,
+                            width: 24,
+                          ),
+                          onPressed: () {
+                            // Bookmark action
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -737,8 +740,9 @@ Widget buildQandAWidget() {
         backgroundColor: const Color(0xffF49EC4), // Customize the color
         child: SvgPicture.asset(
           "assets/icon/ask.svg",
-          width: 40,
-          height: 40,
+          width: 60,
+          height: 60,
+          color: Colors.white,
         ), // Icon of the FAB
 
         // Make the FAB rounded with a specific shape

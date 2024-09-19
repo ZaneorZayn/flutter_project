@@ -82,7 +82,7 @@ class ClinicScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: isTablet?310 : 245,
+                height: isTablet?300 : 245,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: doctors.length,
@@ -90,8 +90,9 @@ class ClinicScreen extends StatelessWidget {
                     final doctor = doctors[index];
                     return DoctorCard(
                       name: doctor.name,
-                      imageUrl: doctor.imageUrl,
+                      imagePath: doctor.imageUrl,
                       specialization: doctor.specialization,
+                      
                     );
                   },
                 ),

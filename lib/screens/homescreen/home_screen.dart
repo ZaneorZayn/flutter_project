@@ -364,18 +364,18 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 15,),
+              padding: const EdgeInsets.only(top: 8,left: 4,right:4),
               child: ResponsiveCarousel(),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 12),
+              padding: const EdgeInsets.only(top: 6,left:2,right: 2),
               child: ResponsiveButton(
                 text: "Your period is likely to start on or around 29 August",
                 onPressed: () {},
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 4),
               child: CustomButtonLayout(),
             ),
             // Horizontal scrollable list of PngTextContainer

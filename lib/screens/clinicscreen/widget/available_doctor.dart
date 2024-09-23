@@ -9,11 +9,7 @@ class DoctorCardAvailable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get screen width and height using MediaQuery
-    //double screenWidth = MediaQuery.of(context).size.width;
-    //bool isTablet = screenWidth > 600; // Tablet detection based on screen width
-
-    return  Card(
+    return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -23,23 +19,48 @@ class DoctorCardAvailable extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image section with discount badge
+              // Image section with a possible online badge
               Expanded(
-                flex: 2,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 6.0),
-                    child: Image.asset(
-                      doctor.imageUrl,
-                      width: double.infinity,
-                      fit: BoxFit.contain,
+                flex: 3,
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 6.0),
+                        child: Image.asset(
+                          doctor.imageUrl,
+                          width: double.infinity,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ),
+                    // "Online" badge
+                    if (doctor.isOnline)
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            'Online',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.white,
+                          ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
 
-              // Product details section
+              // Doctor details section
               Expanded(
                 flex: 3,
                 child: Padding(
@@ -48,69 +69,97 @@ class DoctorCardAvailable extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Product name
+                      // Doctor name
                       Text(
                         doctor.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold
-                        )
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
 
+                      // Specialization
+                      Text(
+                        doctor.specialization,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                      ),
+                      const SizedBox(height: 4),
+
+                      // Rating, experience, and reviews row
                       Row(
                         children: [
-                          Text(doctor.specialization,maxLines: 1,
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Text(
+                            "${doctor.rating} (${doctor.reviews})",
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey
-                            ),),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                          ),
+                          const SizedBox(width: 10),
+                          SvgPicture.asset(
+                            "assets/icon/Work.svg",
+                            height: 20,
+                            width: 20,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "${doctor.experienceYears} year+ ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                          )
                         ],
                       ),
+                      const SizedBox(height: 4),
 
-                        Row(
-                          children: [
-                            Icon(Icons.star,color: Colors.yellow,),
-                            Text("${doctor.rating} (${doctor.reviews})",
-                            maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey
-                            ),
-                            ),
-                            const SizedBox(width: 10,),
-                            SvgPicture.asset("assets/icon/Work.svg",height: 20,width: 20,color: Colors.grey,),
-                            SizedBox(width: 4,),
-                            Text("${doctor.experienceYears} year+ ",
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey
-                            ),)
-                          ],
-                        ),
-
-                        Row(
-                          children: [
-                            Text(
-                                "\$${doctor.consultationFee.toStringAsFixed(2)} ",
-                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            SizedBox(width: 10,),
-                              Text('Inc.VAT',style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: Colors.grey
-                              )),
-                          ],
-                        ),
-
-                      
-                      // If there's a discount, show price after discount and original price in a row
-                      
+                      // Consultation fee and VAT
+                      Row(
+                        children: [
+                          Text(
+                            "\$${doctor.consultationFee.toStringAsFixed(2)} ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Inc.VAT',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -118,10 +167,6 @@ class DoctorCardAvailable extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 4),
-
-          // Discount badge using Stack, shown only if there is a discount
-          
-          
 
           // Add to Cart Button using Align
           Align(
@@ -140,13 +185,14 @@ class DoctorCardAvailable extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      // Handle Add to Cart action
+                      // Handle See Doctor action
                     },
-                    child:  Text(
+                    child: Text(
                       'See Doctor',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.white
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(color: Colors.white),
                     ),
                   ),
                   Padding(
@@ -159,7 +205,7 @@ class DoctorCardAvailable extends StatelessWidget {
                         height: 16, // Icon size
                       ),
                       onPressed: () {
-                        // Action for the heart button
+                        // Action for the videocall button
                       },
                     ),
                   ),

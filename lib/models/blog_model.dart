@@ -38,7 +38,7 @@ List<Blog> blogData = [
     postedDate: DateTime(2024, 8, 25),
     postedBy: "Jane Smith",
     posterImage: "assets/images/jane_smith.png",
-    category: "Development",
+    category: "Backend ",
     viewCount: 980,
   ),
   Blog(

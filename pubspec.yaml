@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   youtube_player_flutter: ^9.0.3
+  comment_tree: ^0.3.0
 
 dev_dependencies:
   flutter_test:

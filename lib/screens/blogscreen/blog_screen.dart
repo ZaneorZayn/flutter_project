@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_project/screens/blogscreen/question_detail.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -474,6 +475,7 @@ Widget buildQandAWidget() {
             const Divider(color: Color(0xff074B78), endIndent: 1.5),
             TextButton(
               onPressed: () {
+               Navigator.push(context, MaterialPageRoute(builder: (context)=> QADetailScreen(qaData: qa)));
                 // Handle see more action
               },
               child: Center(
@@ -615,105 +617,110 @@ Widget buildQandAWidget() {
       ),
       body: Container(
         color: const Color(0xffF7F5FF), // Set background color here
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Custom styled content type buttons
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30), // Rounded container
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: contentTypes.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    String tab = entry.value;
-                    bool isSelected = index == selectedContentTypeIndex;
-
-                    return GestureDetector(
-                      onTap: () {
-                        _onContentTypeSelected(index);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Colors.pinkAccent.shade100
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          tab,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
+        child: Column(
+          children: [
+            // Custom styled content type buttons
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(22),
+                  bottomRight: Radius.circular(22),
+                ), // Rounded container
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: contentTypes.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String tab = entry.value;
+                  bool isSelected = index == selectedContentTypeIndex;
+        
+                  return GestureDetector(
+                    onTap: () {
+                      _onContentTypeSelected(index);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? Colors.pinkAccent.shade100
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        tab,
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : Colors.grey,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ),
+                  );
+                }).toList(),
               ),
-
-              // Full-width category buttons with icons
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 30,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: categories.map((category) {
-                        int index = categories.indexOf(category);
-                        return GestureDetector(
-                          onTap: () => _onCategorySelected(index),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 6),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 12),
-                            decoration: BoxDecoration(
+            ),
+        
+            // Full-width category buttons with icons
+            Padding(
+              padding: const EdgeInsets.all(9.0),
+              child: SizedBox(
+                height: 30,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: categories.map((category) {
+                      int index = categories.indexOf(category);
+                      return GestureDetector(
+                        onTap: () => _onCategorySelected(index),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: selectedCategoryIndex == index
+                                ? const Color(0xffF49EC4)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: selectedCategoryIndex == index
+                                ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
+                                : Border.all(color: Colors.grey[300]!),
+                          ),
+                          child: Text(
+                            category,
+                            style: TextStyle(
                               color: selectedCategoryIndex == index
-                                  ? const Color(0xffF49EC4)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              border: selectedCategoryIndex == index
-                                  ? Border.all(color: const Color(0xffF49EC4), width: 1.5)
-                                  : Border.all(color: Colors.grey[300]!),
-                            ),
-                            child: Text(
-                              category,
-                              style: TextStyle(
-                                color: selectedCategoryIndex == index
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 20),
-
-              // Display different content based on selected content type
-              getContentWidget(),
-            ],
-          ),
+            ),
+        
+            const SizedBox(height: 10),
+        
+            // Display different content based on selected content type
+            Expanded(
+              child: SingleChildScrollView(
+                child: getContentWidget()
+                ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(

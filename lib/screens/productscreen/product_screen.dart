@@ -52,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
     double horizontalMargin = isTablet ? 12.0 : 5.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xffEDF8FD),
+      backgroundColor: Color(0xffEDF8FD),
       appBar: CustomAppBarProduct(),
       body: SingleChildScrollView(
         child: Column(

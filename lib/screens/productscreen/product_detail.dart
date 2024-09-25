@@ -32,8 +32,9 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffEDF8FD),
+      
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -42,7 +43,9 @@ class _ProductDetailState extends State<ProductDetail> {
         ),
         title: Text(
           widget.product.name,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.bold
+          ),
         ),
         toolbarHeight: 80,
         shadowColor: Colors.black,

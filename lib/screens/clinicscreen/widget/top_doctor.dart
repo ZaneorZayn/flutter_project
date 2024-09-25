@@ -20,7 +20,7 @@ class DoctorCard extends StatelessWidget {
     required this.imagePath,
     required this.name,
     required this.specialization,
-    this.containerWidth = 210,  // Same width as your previous DoctorCard
+    this.containerWidth = 220,  // Same width as your previous DoctorCard
     this.containerHeight = 180, // Increased height for larger image
     this.imageBackgroundColor = const Color(0xFFFED3DD),  // Default background color for the image section
     this.textColor = Colors.black,

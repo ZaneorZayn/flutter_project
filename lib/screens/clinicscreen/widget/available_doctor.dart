@@ -45,7 +45,7 @@ class DoctorCardAvailable extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Color(0xff60D956),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(

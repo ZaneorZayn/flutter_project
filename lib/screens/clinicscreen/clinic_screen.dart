@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_project/models/doctor_model.dart';
+import 'package:new_project/screens/clinicscreen/doctor_screen.dart';
 import 'package:new_project/screens/clinicscreen/widget/appbar.dart';
 import 'package:new_project/screens/clinicscreen/widget/available_doctor.dart';
 import 'package:new_project/screens/clinicscreen/widget/slide.dart';
 import 'package:new_project/screens/clinicscreen/widget/top_doctor.dart';
 
-class ClinicScreen extends StatelessWidget {
+class ClinicScreen extends StatefulWidget {
   const ClinicScreen({super.key});
 
+  @override
+  State<ClinicScreen> createState() => _ClinicScreenState();
+}
+
+class _ClinicScreenState extends State<ClinicScreen> {
   @override
   Widget build(BuildContext context) {
     // Check if the screen is a tablet (based on width greater than 600px)
@@ -24,32 +30,37 @@ class ClinicScreen extends StatelessWidget {
               padding: const EdgeInsets.all(2.0),
               child: ImageSlider(),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Expanded(
-                    child: SvgButton(
-                      svgPath: "assets/icon/Group.svg",
-                      label: "Doctor",
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const DoctorScreen()));
+                      },
+                      child: const SvgButton(
+                        svgPath: "assets/icon/Group.svg",
+                        label: "Doctor",
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
+                  const SizedBox(width: 10),
+                  const Expanded(
                     child: SvgButton(
                       svgPath: "assets/icon/Calander.svg",
                       label: "Appointment",
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
+                  const SizedBox(width: 10),
+                  const Expanded(
                     child: SvgButton(
                       svgPath: "assets/icon/prescription.svg",
                       label: "Prescription",
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
+                  const SizedBox(width: 10),
+                  const Expanded(
                     child: SvgButton(
                       svgPath: "assets/icon/medicine.svg",
                       label: "Medicine",

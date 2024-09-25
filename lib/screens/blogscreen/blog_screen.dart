@@ -200,98 +200,108 @@ class _BlogScreenState extends State<BlogScreen> {
 
   // Widget to display YouTube videos
   Widget buildVideoWidget() {
-    List<Map<String, String>> videos = filterDataByCategory(videoData);
-    return ListView.builder(
-      itemCount: videos.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
-        YoutubePlayerController _controller = YoutubePlayerController(
-          initialVideoId: videoId!,
-          flags: const YoutubePlayerFlags(
-            autoPlay: false,
-            mute: false,
-          ),
-        );
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              YoutubePlayer(
+  List<Map<String, String>> videos = filterDataByCategory(videoData);
+  return ListView.builder(
+    itemCount: videos.length,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (context, index) {
+      String? videoId = YoutubePlayer.convertUrlToId(videos[index]['videoUrl']!);
+      YoutubePlayerController _controller = YoutubePlayerController(
+        initialVideoId: videoId!,
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12), // Set the border radius for the entire card
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12), // Top-left border radius
+                topRight: Radius.circular(12), // Top-right border radius
+              ),
+              child: YoutubePlayer(
                 controller: _controller,
                 showVideoProgressIndicator: true,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  videos[index]['title']!,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  children: [
-                    SvgPicture.asset("assets/icon/comment.svg"),
-                    const SizedBox(width: 4),
-                    Text(
-                      "8 comments", // Replace with dynamic data if available
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(color: Colors.grey[600]),
-                    ),
-                    const SizedBox(width: 12),
-                    SvgPicture.asset("assets/icon/comment.svg"),
-                    const SizedBox(width: 4),
-                    Text(
-                      "1 doctor answer", // Replace with dynamic data if available
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(color: Colors.grey[600]),
-                    ),
-                    const SizedBox(width: 12),
-                    SvgPicture.asset("assets/icon/view.svg"),
-                    const SizedBox(width: 4),
-                    Text(
-                      "350 views", // Replace with dynamic data if available
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(color: Color(0xff074B78), endIndent: 1.5),
-              TextButton(
-                onPressed: () {
-                  // Handle see more action
-                },
-                child: Center(
-                  child: Text(
-                    "See more detail",
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: const Color(0xff351238),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                videos[index]['title']!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  SvgPicture.asset("assets/icon/comment.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    "8 comments", // Replace with dynamic data if available
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
                   ),
+                  const SizedBox(width: 12),
+                  SvgPicture.asset("assets/icon/comment.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    "1 doctor answer", // Replace with dynamic data if available
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
+                  ),
+                  const SizedBox(width: 12),
+                  SvgPicture.asset("assets/icon/view.svg"),
+                  const SizedBox(width: 4),
+                  Text(
+                    "350 views", // Replace with dynamic data if available
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(color: Color(0xff074B78), endIndent: 1.5),
+            TextButton(
+              onPressed: () {
+                // Handle see more action
+              },
+              child: Center(
+                child: Text(
+                  "See more detail",
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: const Color(0xff351238),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   // Widget to display blogs
   Widget buildBlogWidget() {
@@ -625,10 +635,7 @@ Widget buildQandAWidget() {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(22),
-                  bottomRight: Radius.circular(22),
-                ), // Rounded container
+              
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2),

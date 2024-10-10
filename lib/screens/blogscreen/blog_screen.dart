@@ -233,7 +233,7 @@ class _BlogScreenState extends State<BlogScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(top: 12.0,bottom: 8,left: 8,right: 8),
               child: Text(
                 videos[index]['title']!,
                 maxLines: 2,
@@ -245,7 +245,7 @@ class _BlogScreenState extends State<BlogScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
               child: Row(
                 children: [
                   SvgPicture.asset("assets/icon/comment.svg"),

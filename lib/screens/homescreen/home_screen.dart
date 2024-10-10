@@ -324,42 +324,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xffF49EC4), Color(0xffF9C0C7)], // Gradient colors
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                // Handle home navigation
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                // Handle settings navigation
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: buildDrawer(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -577,4 +542,244 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+Widget buildDrawer(BuildContext context) {
+  return Drawer(
+    child: Column(
+      children: [
+        // Wrap the UserAccountsDrawerHeader in a Container to manage margins and padding
+        Container(
+          color: Colors.white, // Match this color with your header background
+          child: const UserAccountsDrawerHeader(
+            margin: EdgeInsets.zero, // Removes the default margin
+            accountName: Text(
+              'John Doe',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            accountEmail: Text(
+              'johndoe@example.com',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/Avatar.png'), // Replace with your profile image path
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white, // Header background color
+            ),
+          ),
+        ),
+
+        // Drawer Items
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/home1.svg"),
+          title:  Text('Home',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/document.svg"),
+          title:  Text('Our purposes',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/document.svg"),
+          title:  Text('Contact us ',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/comments.svg"),
+          title:  Text('Chat',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/bell.svg"),
+          title:  Text('Notification',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/bookmark.svg"),
+          title:  Text('Bookmark',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/cart.svg",width: 30,height: 30,),
+          title:  Text('My Cart',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        ListTile(
+          leading: SvgPicture.asset("assets/icon/user.svg"),
+          title:  Text('My Profile',style: Theme.of(context).textTheme.headlineMedium,),
+          onTap: () {
+            // Handle navigation to home
+          },
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ElevatedButton(
+              style:ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff002A4C),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                )
+              ) ,
+              onPressed: (){}, child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset("assets/icon/sign_out.svg",color: Colors.white,),
+                  const SizedBox(width: 8,),
+                  Text("Sign Out",style: TextStyle(color: Colors.white),)
+
+            ],
+          )),
+        )
+      ],
+    ),
+  );
+}
+
+void showCustomPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(26),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Row with "Hotline" text and close button
+              Padding(
+                padding: const EdgeInsets.only(left: 100),
+                child: Row(
+
+                  children: [
+                    Text(
+                      'Hotline',
+                      style: Theme.of(context).textTheme.headlineLarge
+                    ),
+                    const SizedBox(width: 45,),
+                    Container(
+                      margin: EdgeInsets.only(right: 5),
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+
+                        border: Border.all(color: Colors.black)
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the popup
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Container with an image
+              Container(
+                height: 150, // Adjust the height as needed
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    "assets/images/hotline.jpg", // Replace with your image URL or asset
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20), // Space between the container and buttons
+              // Column with three buttons
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Action for Button 1
+                        Navigator.of(context).pop(); // Close the popup
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Button 1'),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Action for Button 2
+                        Navigator.of(context).pop(); // Close the popup
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Button 2'),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Action for Button 3
+                        Navigator.of(context).pop(); // Close the popup
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Button 3'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

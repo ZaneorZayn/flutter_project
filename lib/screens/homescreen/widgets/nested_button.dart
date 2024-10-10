@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_project/screens/homescreen/home_screen.dart';
+import 'package:new_project/screens/homescreen/join_movement.dart';
 
 class CustomButtonLayout extends StatelessWidget {
   const CustomButtonLayout({super.key});
@@ -144,7 +146,7 @@ class CustomButtonLayout extends StatelessWidget {
                         children: [
                           Flexible(
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>JoinMovement()));},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xff351238),
                                 padding: EdgeInsets.symmetric(vertical: isTablet ? 16.0 : 14.0,horizontal: isTablet? 20:14), // Adjust padding for tablet
@@ -181,7 +183,7 @@ class CustomButtonLayout extends StatelessWidget {
                           const SizedBox(width: 8.0), // Space between buttons
                           Flexible(
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {showCustomPopup(context);},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xff14697E),
                                 padding: EdgeInsets.symmetric(vertical: isTablet ? 24.0 : 17.0), // Adjust padding for tablet

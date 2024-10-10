@@ -32,7 +32,6 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -44,85 +43,84 @@ class _ProductDetailState extends State<ProductDetail> {
         title: Text(
           widget.product.name,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold
+              fontWeight: FontWeight.bold
           ),
         ),
         toolbarHeight: 80,
         shadowColor: Colors.black,
         actions: [
           Container(
-          height: 45, // Smaller size for the icon background
-          width: 45, // Make it circular
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.grey, // Border color
-              width: 1.5, // Border width
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.grey,
+                width: 1.5,
+              ),
+            ),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/icon/Heart.svg',
+                color: const Color(0xff64748B),
+                width: 25,
+                height: 25,
+              ),
+              onPressed: () {
+                // Action for the heart button
+              },
             ),
           ),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/icon/Heart.svg',
-              color: const Color(0xff64748B),
-              width: 30, // Icon size
-              height: 30, // Icon size
-            ),
-            onPressed: () {
-              // Action for the bell button
-            },
-          ),
-        ),
-
-          const SizedBox(width: 6,),
+          const SizedBox(width: 6),
           Container(
-          height: 45, // Smaller size for the icon background
-          width: 45, // Make it circular
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.grey, // Border color
-              width: 1.5, // Border width
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.grey,
+                width: 1.5,
+              ),
+            ),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/icon/cart.svg',
+                color: const Color(0xff64748B),
+                width: 30,
+                height: 30,
+              ),
+              onPressed: () {
+                // Action for the cart button
+              },
             ),
           ),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/icon/cart.svg',
-              color: const Color(0xff64748B),
-              width: 30, // Icon size
-              height: 30, // Icon size
-            ),
-            onPressed: () {
-              // Action for the bell button
-            },
-          ),
-        ),
-          const SizedBox(width: 6,),
+          const SizedBox(width: 6),
           Container(
-          height: 45, // Smaller size for the icon background
-          width: 45, // Make it circular
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.grey, // Border color
-              width: 1.5, // Border width
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.grey,
+                width: 1.5,
+              ),
+            ),
+            child: IconButton(
+              icon: SvgPicture.asset(
+                'assets/icon/drawer.svg',
+                color: const Color(0xff64748B),
+                width: 40,
+                height: 40,
+              ),
+              onPressed: () {
+                // Action for the drawer button
+              },
             ),
           ),
-          child: IconButton(
-            icon: SvgPicture.asset(
-              'assets/icon/drawer.svg',
-              color: const Color(0xff64748B),
-              width: 40, // Icon size
-              height: 40, // Icon size
-            ),
-            onPressed: () {
-              // Action for the bell button
-            },
-          ),
-        ),
-        const SizedBox(width: 6,)
+          const SizedBox(width: 6),
         ],
       ),
       body: Stack(
@@ -140,17 +138,14 @@ class _ProductDetailState extends State<ProductDetail> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 300, // Adjust height as needed
-                        decoration: const BoxDecoration(),
+                        height: 300,
                         child: ClipRRect(
-                          
                           child: Image.asset(
                             widget.product.image,
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      // Positioned Favorite Button on Image
                       Positioned(
                         top: 12,
                         right: 16,
@@ -188,8 +183,8 @@ class _ProductDetailState extends State<ProductDetail> {
                   child: Text(
                     widget.product.name,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -199,9 +194,9 @@ class _ProductDetailState extends State<ProductDetail> {
                   child: Text(
                     "\$${widget.product.priceAfterDiscount.toStringAsFixed(2)}",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -215,7 +210,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         children: [
                           Icon(Icons.star, color: Colors.amber, size: 20),
                           Text(
-                            "${widget.product.rating} (${widget.product.reviewCount} reviews >) ",
+                            "${widget.product.rating} (${widget.product.reviewCount} reviews)",
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
@@ -245,7 +240,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     "This is a detailed description of the product. It provides all the information a customer might need to make an informed purchasing decision.",
-                    
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
@@ -253,11 +247,9 @@ class _ProductDetailState extends State<ProductDetail> {
               ],
             ),
           ),
-          // Bottom-aligned Add to Cart section using Positioned
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+          // Bottom-aligned Add to Cart section using Align
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               decoration: BoxDecoration(
@@ -296,14 +288,13 @@ class _ProductDetailState extends State<ProductDetail> {
                         Text(
                           "Buy Now | \$${widget.product.price}",
                           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: Colors.white,
-                              ),
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(width:5 ,),
+                  const SizedBox(width: 5),
                   // Add to Cart Button
                   ElevatedButton(
                     onPressed: () {
@@ -326,8 +317,8 @@ class _ProductDetailState extends State<ProductDetail> {
                         Text(
                           "Add to Cart",
                           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: Colors.white,
-                              ),
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
